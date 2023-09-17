@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+
+*{
+    padding : 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: 'Metrophobic', sans-serif;
+    
+
+}
+
+.flex-0{
+    flex: 0;
+}
+.flex-1{
+    flex: 1;
+}
+
+.flex-2{
+    flex: 2;
+}
+
+.flex-3{
+    flex: 3;
+}
+
+.mc{
+    color: #615EF0;
+}
+.bg{
+    background-color: #615EF0;
+}
+
+.bg:hover{
+    background-color: #9291d5;
+}
+
