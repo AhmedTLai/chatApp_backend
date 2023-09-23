@@ -17,7 +17,7 @@ const FindFriend = async (e)=>{
   e.preventDefault();
   try{
     
-   const res = await axios.post('http://localhost:3000/api/user/friendf',{inp,user_id})   
+   const res = await axios.post('http://127.0.0.1:3000/api/user/friendf',{inp,user_id})   
    localStorage.setItem('friends',JSON.stringify(res.data.userInfo))
   setData(res.data)
   
