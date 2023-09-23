@@ -58,7 +58,7 @@ const MessagesCont = (userData) => {
 
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io("ws://127.0.0.1/:8900");
 
     socket.current.on("receiveMessage", (data) => {
       setArivalMessage({
