@@ -20,7 +20,7 @@ const Register = () => {
           e.preventDefault();
           
           try{
-            const res = await axios.post('https://backend-side-h758.onrender.com/api/auth/register',input)
+            const res = await axios.post('http://127.0.0.1:3000/api/auth/register',input)
             navigate('/login')
           }catch(err){
             setErr(err)
