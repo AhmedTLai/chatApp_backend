@@ -16,7 +16,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "Client" : "cd ../Client && npx vite --host",
-    "dev": "concurrently \"nodemon Index.js\" \"npm run Client\""
+    "dev": "nodemon Index.js"
   },
   "keywords": [],
   "author": "",
