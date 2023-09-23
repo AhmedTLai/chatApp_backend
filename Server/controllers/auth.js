@@ -38,38 +38,58 @@ const RegisterContr = (req, res) => {
   };   
 
 
-const LoginContr = (req,res)=>{ 
-//check email user if exist
-  const emailQ = 'SELECT * FROM users WHERE email=?'
-
-  db.query(emailQ,[req.body.email],(err,result)=>{
-    if(err) return res.status(500).json(err)
-    if(result.length > 0){
-      //compare password
-      const passwordCheck = bcrypt.compareSync(req.body.password,result[0].password)
-      const {password , ...others} = result[0]
-      if(passwordCheck){
-        
-          const token = jwt.sign({id : others.id},'user_token')
-          const oneHourFromNow = new Date(Date.now() + 60 * 60 * 1000);
-          
-         return  res.cookie('user_token',token,{
-            httpOnly: true,
-            secure : true, 
-          }).status(200).json({data : others,auth : true})
-
+  const LoginContr = (req, res) => {
+    // Check email user if exist
+    const emailQ = 'SELECT * FROM users WHERE email=?';
+  
+    db.query(emailQ, [req.body.email], (err, result) => {
+      if (err) {
+        return res.status(500).json(err);
       }
       
-     return res.status(301).json({message :'password incorect please try again .',auth : false}) 
-    }
-    return res.status(301).json({message : 'email is undefined please try auther one or try register an account .',auth : 'false'})
-  })
-}  
+      if (result.length > 0) {
+        // Compare password
+        const passwordCheck = bcrypt.compareSync(req.body.password, result[0].password);
+        const { password, ...others } = result[0];
+  
+        if (passwordCheck) {
+          const token = jwt.sign({ id: others.id }, 'user_token');
+          const oneHourFromNow = new Date(Date.now() + 60 * 60 * 1000);
+  
+          const setOnlineStatusQ = 'UPDATE users SET is_online=1 WHERE email=?';
+          db.query(setOnlineStatusQ, [req.body.email], (err, data) => {
+            if (err) {
+              return res.status(500).json(err);
+            }
+  
+            res.cookie('user_token', token, {
+              httpOnly: true,
+              secure: true,
+            }).json({ data: others, auth: true });
+          });
+        } else {
+          res.status(301).json({ message: 'Password incorrect. Please try again.', auth: false });
+        }
+      } else {
+        res.status(301).json({ message: 'Email is undefined. Please try another one or try registering an account.', auth: false });
+      }
+    });
+  };
 
 const LogoutContr = (req, res) => {
+  const desconnectStatuQ = 'UPDATE users SET is_online=0 WHERE user_id=?'
   try {
-    res.clearCookie('user_token', { httpOnly: true }); // Use 'httpOnly' instead of 'Credential'
-    res.end();
+
+    db.query(desconnectStatuQ,[req.params.user_id],(err,result)=>{
+      if(err) {
+        return res.status(500).json(err)
+      }
+      if(result){
+         res.clearCookie('user_token', { httpOnly: true }); // Use 'httpOnly' instead of 'Credential'
+        res.end();
+      }
+    })
+   
   } catch (err) {
     console.log(err);
   }

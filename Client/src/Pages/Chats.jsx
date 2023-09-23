@@ -4,11 +4,12 @@ import ContactToMessageC from "../Components/ContactToMessageC";
 import MessagesCont from "../Components/MessagesCont";
 import io from "socket.io-client";
 import Contacts from "../Components/Contacts";
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import axios from 'axios'
 import { AuthContext } from '../Context/AuthContext'
 import { ContactConetext } from "../Context/ContactConetext";
+import { DarkModeContext } from "../Context/DarkModeContext";
 
 
 const Container = styled.div`
@@ -23,6 +24,10 @@ const Container = styled.div`
   input {
     max-width: 100%;
     outline: none;
+  }
+
+  a{
+    text-decoration : none;
   }
 `;
 
@@ -45,11 +50,13 @@ const Chats = (user) => {
   const {myContacts} = useContext(ContactConetext)
  
  
+  const {Darkmode, theme} = useContext(DarkModeContext)
+
   const navigate = useNavigate()
   const Logout = async () => {
     try {
       // Send a GET request to the logout endpoint with credentials.
-      const response = await axios.get('http://localhost:3000/api/auth/logout', {
+      const response = await axios.get(`http://localhost:3000/api/auth/logout/${user_id}`, {
         withCredentials: true,
       });
   
@@ -99,7 +106,7 @@ if(!currentUser) navigate('/login');
         <h1 className="d-flex gap-3 fw-bold " role="button" tabIndex="0" data-bs-toggle="dropdown" aria-expanded="false">
           Messages <span><img src="/angle-down.png" alt="angle" />
           <ul className='dropdown-menu w-100 py-1'>
-          <li className="dropdown-item py-2 d-flex align-items-center gap-3"><i className="fa-solid fa-moon text-dark fs-3 border rounded-circle w-100 px-1" style={{maxWidth : '30px'}}></i>DarkMode</li>
+          <li onClick={Darkmode} className="dropdown-item py-2 d-flex align-items-center gap-3"><i className="fa-solid fa-moon text-dark fs-3 border rounded-circle w-100 px-1" style={{maxWidth : '30px'}}></i>DarkMode</li>
           <hr className="my-1"/>
           <li onClick={Logout} className="dropdown-item py-2 d-flex align-items-center gap-3 "><i className="fa-solid fa-right-from-bracket rounded-circle text-dark fs-3 border  w-100 h-100 px-1" style={{maxWidth : '30px' ,maxHeight : '40px'}}></i> logout</li>
           </ul>
@@ -107,9 +114,9 @@ if(!currentUser) navigate('/login');
         </h1>
         
         </div>
-        <div role="button" tabIndex="0" style={{width : '50px', height : '50px' , background : '#615EF0'}} className='d-flex justify-content-center align-items-center rounded-circle text-light fs-3'>
+        <Link to='/search'><div role="button" tabIndex="0" style={{width : '50px', height : '50px' , background : '#615EF0'}} className='d-flex justify-content-center align-items-center rounded-circle text-light fs-3 '>
           +
-        </div>
+        </div></Link>
         </div>
         <div className="bg-body-secondary py-3 px-2 my-3 w-100 rounded d-flex justify-content-between align-items-center">
           <i className="fa-solid fa-magnifying-glass text-black-50 mx-3" ></i>

@@ -30,10 +30,10 @@ const FindFriend = async (e)=>{
 }
 
   return (
-    <div className='d-flex gap-1'>
+    <div className='d-flex gap-1 '>
         <Navbar />
-        <div className='w-100'>
-        <form onSubmit={FindFriend} className='container'>
+        <div className='w-100 py-3'>
+        <form onSubmit={FindFriend} className='container '>
           <label htmlFor="Search" className='form-label'>Search for your friends here</label>
           <input className='form-control' type="text" name='search' id='Search' placeholder='enter your friends name ...' onChange={(e)=>{setInp(e.target.value)}}/>
           <br />

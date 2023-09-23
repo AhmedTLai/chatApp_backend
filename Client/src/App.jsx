@@ -4,6 +4,8 @@ import { Routes, Route ,useNavigate, Outlet } from 'react-router-dom';
 import { Suspense, lazy, useContext, useEffect } from 'react';
 import { AuthContext } from './Context/AuthContext';
 import "./App.css"
+import { DarkModeContext } from './Context/DarkModeContext';
+import styled from 'styled-components';
 // import Chats from './Pages/Chats';
 // import Search from './Pages/Search';
 // import MessagesCont from './Components/MessagesCont'
@@ -18,16 +20,44 @@ const Register = lazy(()=> import('./Pages/Register'))
 const ProfilePage = lazy(()=> import('./Pages/profilePage'))
 
 
+const Loading = styled.div`
+  
+min-height : 100vh;
+display : flex;
+justify-content : center;
+align-items : center;
+
+
+img{
+  max-width : 100px;
+}
+
+`
+
+
 function App() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate()
 
- 
+  const {theme} = useContext(DarkModeContext)
+
+  const Body = styled.div`
+  
+  background : ${theme ? '#111' : '#fff'};
+  color : ${theme ? '#fff' : '#111'} !important;
+  a{
+    color : ${theme ? '#fff' : '#111'} !important;
+  }
+
+
+  `
+
+
 
   return (
-    <>
+    <Body className='body'>
     
-    <Suspense fallback={<h1>Loading ...</h1>}>
+    <Suspense fallback={<Loading><img src="/loading.gif" alt="loading..." /></Loading>}>
     <Routes>
       <Route path="/" element={currentUser ? <Chats /> : <Register />} />
       <Route path="/login" element={<Login />} />
@@ -50,7 +80,7 @@ function App() {
     
         <Outlet />
     </Suspense>
-    </>
+    </Body>
   );
 }
 

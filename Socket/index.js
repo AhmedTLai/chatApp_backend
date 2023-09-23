@@ -20,25 +20,41 @@ const getUser = (user_id) => {
 };
 
 io.on('connection', (socket) => {
-    console.log(socket.id);
 
     socket.on('addUser', (user_id) => {
         addUser(user_id, socket.id);
         io.emit('getUsers', users);
+        
     });
+
+    
+
+    socket.on('userTyping',({typer,receiver_id})=>{
+        
+        
+        socket.broadcast.emit("userTyping",{typer})
+    })
+
+    socket.on('userStopTyping',()=>{
+        socket.broadcast.emit('userStopTyping')
+    })
 
     // send message
     socket.on('sendMessage', ({ sender_id, receiver_id, message }) => {
         const user = getUser(receiver_id);
-
-        io.to(user.socket_id).emit('receiveMessage', {
+    
+        io.to(user.socket_id).emit('receiveMessage', { 
             sender_id,
             message,
         });
+    
     });
 
+    socket.on('onlineStats',(data)=>{
+        console.log(data)
+    })
+
     socket.on('disconnect', () => {
-        console.log(socket.id + ' disconnected');
         removeUser(socket.id);
     });
 });

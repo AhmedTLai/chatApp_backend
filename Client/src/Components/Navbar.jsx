@@ -51,7 +51,7 @@ const ProfileDiv = styled.div`
 
 const Icons = styled.div`
   .active {
-    color: #615EF0;
+    color: #615EF0 !important;
   }
   a {
     display: flex;

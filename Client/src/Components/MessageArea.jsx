@@ -19,9 +19,10 @@ const MessageCont = styled.div`
     background-color: transparent;
   }
   @media (max-width : 1200px){
-    max-height : 100%;
+    max-height : 90vh;
     height : 100%;
   }
+ 
 `;
 
 const MyMessage = styled.div`
@@ -62,9 +63,15 @@ const Dropdown = styled.div`
   }
 `
 
+const TypingAnim = styled.img`
+max-width : 30px;
+position : relative;
+top : -7px;
+
+`
 
 
-const MessageArea = ({userdata,messageData}) => {
+const MessageArea = ({userdata,messageData,typing}) => {
     
    
     // const userToMessage = data?.user
@@ -76,14 +83,14 @@ const MessageArea = ({userdata,messageData}) => {
 
     useEffect(()=>{
       messageRef.current?.scrollIntoView({behavior : 'smooth'})
-    },[messages])
+    },[messages,typing])
 
 
 return (
   <MessageCont className="h-100" >
       {
-      Array.isArray(messages) && 
-      messages?.map((value, index) => (
+      Array.isArray(messages.messageData) && 
+      messages?.messageData?.map((value, index) => (
         <>
         
         {value?.sender_id == user_id ? 
@@ -109,7 +116,8 @@ return (
     <div key={index}>
         <div className="d-flex gap-3 align-items-center justify-content-end " >
           <Dropdown className='dropdown d-inline-flex justify-content-end '>
-          <MyMessage className="rounded-pill my-4 dropdown-toggle  " ref={messageRef} style={{background : '#bfbee0',color : '#000'}}>{value?.last_message}</MyMessage>
+            
+          <MyMessage className="rounded-pill my-3 dropdown-toggle  " ref={messageRef} style={{background : '#bfbee0',color : '#000'}}>{value?.last_message}</MyMessage>
             <ul className="dropdown-menu">
                 <p className="dropdown-item">{format(value?.crated_at)}</p>
             </ul>
@@ -127,6 +135,7 @@ return (
         
       </>
       ))} 
+  { typing?.typing  &&  typing.typer !== currentUser.data.fullname ?<div className='d-flex justify-content-end align-items-center gap-1'> <p className='text-secondary'>{typing?.typer} is typing ...</p> <TypingAnim src='/typing.gif' alt='typing'></TypingAnim> </div> : ''}
       
     </MessageCont>
 )

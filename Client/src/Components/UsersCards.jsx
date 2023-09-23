@@ -72,7 +72,7 @@ const [friendId , setFriendId] = useState(null)
           <div className='d-flex gap-2 my-3 border-bottom py-2 px-1 align-items-center w-100'>
             <img src={value?.profile_pic} alt='profilepic' className='mx-2 w-100 rounded-circle overflow-hidden flex-1' style={{ maxWidth: '70px' }} />
             <div className='flex-3 d-flex align-items-center text-left'>
-              <h5 className='text-black'>{value?.fullname}</h5>
+              <h5 className=''>{value?.fullname}</h5>
             </div>
             <div className='flex-1 d-flex'>
               {/* <button
@@ -89,7 +89,7 @@ const [friendId , setFriendId] = useState(null)
         
         </>
       ) : (
-        <p>{data}</p>
+        <p className='text-center fs-1'>Search for some friends in the search bar </p>
       )}
     </>
   );

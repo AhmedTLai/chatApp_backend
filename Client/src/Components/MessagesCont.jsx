@@ -52,18 +52,22 @@ const MessagesCont = (userData) => {
   const socket = useRef()
   const [arivalMessage, setArivalMessage] = useState(null)
   const [messages,setMessages] = useState(null)
+  const [typing , setTyping] = useState(false)
+  const [typer ,setTyper] = useState('')
   userData = userData?.userData?.data
+
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
 
     socket.current.on("receiveMessage", (data) => {
       setArivalMessage({
-        sender_id: data.sender_id,
-        message: data.message,
+        sender_id: data?.sender_id,
+        message: data?.message,
         created_at: Date.now(),
-      });
+      });console.log(data)
     });
+    
   }, []);
 
   useEffect(() => {
@@ -71,7 +75,8 @@ const MessagesCont = (userData) => {
     socket.current.emit("addUser", user_id);
 
     socket.current.on("getUsers", (users) => {
-      const isOnline = users.some((u) => u.user_id === user_id);
+      const isOnline = users.find((u) => u.user_id === user_id);
+      
       setOnline(isOnline);
     });
 
@@ -89,7 +94,7 @@ const MessagesCont = (userData) => {
       .catch((err) => {
         console.error("Error fetching messages:", err);
       });
-  }, [room_id, arivalMessage,inp]);
+  }, [room_id, arivalMessage,inp,typing]);
 
   const SendMessage = (e) => {
     e.preventDefault();
@@ -118,11 +123,31 @@ const MessagesCont = (userData) => {
     }
   };
 
-  useEffect(() => {
-    if (arivalMessage) {
-      setMessages((prev) => (prev ? [...prev, arivalMessage] : [arivalMessage]));
+
+
+
+  useEffect(()=>{
+    if(inp !== ''){
+      socket.current.emit('userTyping',{typer : currentUser.data.fullname,receiver_id : room_id})
+      setTyping(true)
+    }else{
+      socket.current.emit('userStopTyping')
+      setTyping(false)
+      setTyper('')
     }
-  }, [arivalMessage]);
+  },[inp])
+
+  useEffect(()=>{
+    socket.current.on('userTyping',(data)=>{
+      setTyper(data.typer)
+      setTyping(true)
+    })
+    socket.current.on('userStopTyping',()=>{
+      setTyping(false)
+      setTyper('')
+    })
+      
+  },[inp])
   
   // console.log(messageData);
   return (
@@ -137,7 +162,7 @@ const MessagesCont = (userData) => {
             <strong>{userData.fullname}</strong>
           </h5>
           <div className="d-flex align-items-center gap-1">
-            {online ? <GreenDot /> : <RedDot />} {online ? "Online" : "Offline"}
+            {userData.is_online == 1 ? <GreenDot /> : <RedDot />} {userData.is_online == 1 ? "Online" : "Offline"}
           </div>
         </div>
         {/* ... (rest of your sender section) */}
@@ -148,13 +173,13 @@ const MessagesCont = (userData) => {
       
         
         <div  className="h-100">
-      <MessageArea userdata={userData} messageData={messageData} />
+      <MessageArea userdata={userData} messageData={{messageData , arivalMessage}} typing={{typing,typer}}/>
       </div>
 
       {/********************************************/}
 <form onSubmit={SendMessage}>
         <div className="d-flex align-items-center position-relative" style={{ bottom: '10px' }}>
-        <label htmlFor="file" role="button" tabIndex="0" className="fs-4"><i className="fa-solid fa-paperclip text-black-50 mx-3" ></i></label>
+        <label htmlFor="file" role="button" tabIndex="0" className="fs-4"><i className="fa-solid fa-paperclip mx-3" ></i></label>
         <input type="file" name="file" id="file" className="d-none"/>
         <div className="bg-body-secondary py-3 px-3 my-3 w-100 rounded d-flex justify-content-between align-items-center">  
       

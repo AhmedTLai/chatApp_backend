@@ -6,6 +6,6 @@ const db = mydb.createConnection({
     password : '',
     database : 'chatapp' 
 })
-
+ 
 
 module.exports = db

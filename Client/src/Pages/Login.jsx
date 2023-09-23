@@ -16,20 +16,22 @@ const Login = () => {
     e.preventDefault();
     try{
       login(inp);
+      
+      navigate('/')
      
     }catch(err){
       console.log(err)
     }
   }
 
-  useEffect(()=>{
-    if(!currentUser) navigate('/register') || navigate('/login') 
-    else navigate('/')
-  },[currentUser])
+  // useEffect(()=>{
+  //   if(!currentUser) navigate('/register') || navigate('/login') 
+  //   else navigate('/')
+  // },[currentUser])
 
 
   return (
-    <div className="container py-3 px-3">
+    <div className="container py-3 px-3" style={{minHeight : '100vh'}}>
 
       {err ? <p className='text-danger'>{err}</p> : ''}
       <form onSubmit={loginHunler}>

@@ -8,18 +8,25 @@ export const ContactConetext = createContext()
 export const ContactConetextProvider = ({children})=>{
 
     const [myContacts,setMyContacts] = useState(null)
-
+ 
 
     const GetC = async (user_id) => {
+     
         try {
           const response = await axios.get(
             `http://localhost:3000/api/user/contacts/${user_id}`
           );
+  
           setMyContacts(response.data);
         } catch (err) {
           console.log(err);
         }
       }
+
+
+   
+
+     
 
      
 

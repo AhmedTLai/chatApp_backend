@@ -5,6 +5,6 @@ const route = express.Router()
 
 route.post('/register',RegisterContr)
 route.post('/login',LoginContr)
-route.get('/logout',LogoutContr)
+route.get('/logout/:user_id',LogoutContr)
 
 module.exports = route
