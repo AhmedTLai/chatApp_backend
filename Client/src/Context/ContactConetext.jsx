@@ -14,7 +14,7 @@ export const ContactConetextProvider = ({children})=>{
      
         try {
           const response = await axios.get(
-            `http://localhost:3000/api/user/contacts/${user_id}`
+            `http://127.0.0.1:3000/api/user/contacts/${user_id}`
           );
   
           setMyContacts(response.data);
