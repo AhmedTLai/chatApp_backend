@@ -15,7 +15,7 @@ const ProfilePage = () => {
     const hundleFollow = async()=>{
         // console.log(userData)
         try{
-            axios.put(`http://localhost:3000/api/user/addfriend`,userData)
+            axios.put(`http://127.0.0.1:3000/api/user/addfriend`,userData)
             .then(response => setRes(response.data))
             .catch(err => console.log(err))
 
@@ -31,7 +31,7 @@ const ProfilePage = () => {
 
     useEffect(()=>{ 
 
-axios.get(`http://localhost:3000/api/user/checkFriendship/${userData?.user}/${userData.data?.user_id}`)
+axios.get(`http://127.0.0.1:3000/api/user/checkFriendship/${userData?.user}/${userData.data?.user_id}`)
         .then(response => setFollow(response))
         .catch(err => console.log(err))
 
