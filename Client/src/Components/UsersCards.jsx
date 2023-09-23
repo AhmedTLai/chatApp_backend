@@ -45,7 +45,7 @@ const [friendId , setFriendId] = useState(null)
     
     try{
       if(friendId != null){
-        axios.get(`http://localhost:3000/api/user/checkFriendship/${user_id}/${friendId}`)
+        axios.get(`http://127.0.0.1:3000/api/user/checkFriendship/${user_id}/${friendId}`)
         .then(response => {
           setFriendStatus([...friendStatus,{friendStatus :response.data}])})
         .catch(err => console.log(err))
