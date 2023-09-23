@@ -56,7 +56,7 @@ const Chats = (user) => {
   const Logout = async () => {
     try {
       // Send a GET request to the logout endpoint with credentials.
-      const response = await axios.get(`http://localhost:3000/api/auth/logout/${user_id}`, {
+      const response = await axios.get(`http://127.0.0.1:3000/api/auth/logout/${user_id}`, {
         withCredentials: true,
       });
   
