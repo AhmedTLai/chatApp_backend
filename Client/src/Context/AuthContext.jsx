@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (input) => {
     //TO DO
-      await axios.post('https://backend-side-h758.onrender.com/api/auth/login',input,{withCredentials : true})
+      await axios.post('http://127.0.0.1:3000/api/auth/login',input,{withCredentials : true})
       .then(res =>{
          setCurrentUser(res.data)
          window.location.reload();
