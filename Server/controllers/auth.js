@@ -28,7 +28,7 @@ const RegisterContr = (req, res) => {
         const insertUserQ = 'INSERT INTO users(fullname, email, password) VALUES (?, ?, ?)';
   
         db.query(insertUserQ, [fullname, email, password], (err, result) => {
-          if (err) return res.status(500).json({ message: 'An error occurred, try again later' });
+          if (err) return res.status(500).json({ message: 'An error occurred, try again later' ,err : err});
           else {
             res.status(200).json({ message: 'User added' });
           }
