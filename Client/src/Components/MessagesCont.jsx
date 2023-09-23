@@ -87,7 +87,7 @@ const MessagesCont = (userData) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/messenger/getmessages/${user_id}/${room_id}`)
+      .get(`http://127.0.0.1:3000/api/messenger/getmessages/${user_id}/${room_id}`)
       .then((res) => {
         setMessageData(res.data);
       })
@@ -107,7 +107,7 @@ const MessagesCont = (userData) => {
 
     try {
       axios
-        .put("http://localhost:3000/api/messenger/sendmessage", {
+        .put("http://127.0.0.1:3000/api/messenger/sendmessage", {
           user_id,
           message: inp,
           room_id,
