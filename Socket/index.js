@@ -1,6 +1,6 @@
 const io = require('socket.io')(process.env.PORT || 8900, {
     cors: {
-        origin: 'http://localhost:5173',
+                origin: 'http://127.0.0.1/:8900',
         credentials: true,
     },
 });
