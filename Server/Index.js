@@ -12,7 +12,7 @@ const Messages = require('./routes/messages')
 const origins = 'http://192.168.1.17:5173'
 
 //using the middlewere ----------------
-app.use(cors({origin : 'https://front-side-chatapp.onrender.com' , credentials : true}));
+app.use(cors({origin : 'http://127.0.0.1:5173' , credentials : true}));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.json())
